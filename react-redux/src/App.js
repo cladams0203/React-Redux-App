@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import { ShowSearch } from './components/ShowSearch';
 import './App.css';
 
 function App() {
+  const [search, setSearch] = useState();
+  useEffect(() => {
+    search &&
+    axios.get(`http://api.tvmaze.com/search/shows?q=${search}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }, [search])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ShowSearch search={setSearch}/>
     </div>
   );
 }
