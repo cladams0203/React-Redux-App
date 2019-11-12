@@ -1,27 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React from 'react';
+
+import { connect } from 'react-redux';
+import { fetchShows } from './actions/fetchShows';
 import { ShowSearch } from './components/ShowSearch';
 import { ShowList } from './components/ShowList';
 import './App.css';
 
-function App() {
-  const [search, setSearch] = useState();
-  const [data, setData] = useState()
-  console.log(data)
-  useEffect(() => {
-    search &&
-    axios.get(`http://api.tvmaze.com/search/shows?q=${search}`)
-      .then(res => setData(res.data))
-      .catch(err => console.log(err))
-  }, [search])
+function App(props) {
+  
+  
+  const handleSearch = (input) => {
+    props.fetchShows(input)
+  }
 
   return (
     <div className="App">
-      <ShowSearch search={setSearch}/>
-      <ShowList data={data} />
+      <ShowSearch search={handleSearch}/>
+      <ShowList data={props.shows} />
       
     </div>
   );
 }
-
-export default App;
+function mapStateToProps(state) {
+  return state
+}
+const mapDispatchToProps = {
+  fetchShows: fetchShows
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
