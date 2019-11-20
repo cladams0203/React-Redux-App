@@ -4,7 +4,7 @@ import { ShowCard } from './ShowCard';
 export function ShowList(props) {
 
     return (
-        <div>
+        <div className='card-container'>
             {props.data && props.data.map((item, index) => {
                 return (
                     <ShowCard data={item} key={index} />
